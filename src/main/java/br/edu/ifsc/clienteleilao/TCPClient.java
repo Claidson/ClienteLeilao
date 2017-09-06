@@ -11,22 +11,30 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author aluno
  */
-public class TCPClient {
+public class TCPClient extends Thread{
 
-    public static Socket Conectar(String ip, String porta) {
+    //String ip = "10.151.34.132";
+    Socket sock;
+
+    public TCPClient(Socket sock) {
+        this.sock = sock;
+    }
+    
+    
+    
+    public  void Conectar(String ip, String porta) {
+
         try {
             Socket sock;
             InetAddress srvAddr = null;
             int port = Integer.parseInt(porta);
-            ip = "10.151.34.132";
-            String outMsg, inMsg;
-            Scanner input = new Scanner(System.in);
 
             /* Gets parameters and check */
             if (!ip.equals("localhost")) {
@@ -36,7 +44,7 @@ public class TCPClient {
                     System.out.print("\nEndereco servidor: " + e.getMessage());
                     System.exit(1);
                 }
-                port = Integer.parseInt("65530");
+                // port = Integer.parseInt("65530");
                 if ((port < 1) && (port > 65535)) {
                     System.out.print("\nPorta invalida!!!\n\tFaixa: 1 - 65535");
                     System.exit(1);
@@ -49,38 +57,67 @@ public class TCPClient {
             System.out.print("\nConectando a " + srvAddr.toString() + " na porta " + port + "... ");
             sock = new Socket(srvAddr, port);
             System.out.print("[OK]");
-            return sock;
+           // this.sock = sock;
+            this.sock = sock;
         } catch (IOException e) {
             System.out.print("\n\tConexao: " + e.getMessage());
         }
-  return sock;
+      
+
     }
 
-    DataInputStream in = new DataInputStream(sock.getInputStream());
-    DataOutputStream out = new DataOutputStream(sock.getOutputStream());
-
+    public static void enviarMensagem(String outMsg, Socket sock) throws IOException {
+        
+        DataOutputStream out = new DataOutputStream(sock.getOutputStream());
     
-        while (true) {
-                System.out.print("\nMensagem: ");
-        outMsg = input.nextLine();
+      //  Scanner input = new Scanner(System.in);
 
-        /* Check message */
-        if ("<close>".equals(outMsg)) {
-            /* Connection close */
-            sock.close();
+       // while (true) {
+            System.out.print("\nMensagem: ");
+            //outMsg = input.nextLine();
 
-            /* Close system */
-            System.exit(0);
+            /* Check message */
+            if ("<close>".equals(outMsg)) {
+                /* Connection close */
+                sock.close();
+
+                /* Close system */
+                System.exit(0);
+            }
+
+            /* Send message to server */
+            out.writeUTF(outMsg);
+
+            /* Receive message from server */
+         
+
         }
 
-        /* Send message to server */
-        out.writeUTF(outMsg);
+    public void run() {
+        try {
 
-        /* Receive message from server */
-        String data = in.readUTF();
-        System.out.print("\n[Resposta] " + data);
-
+            receberMensagem(sock);
+        } catch (IOException ex) {
+            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    
+    public static void receberMensagem(Socket sock) throws IOException {
+        DataInputStream in = new DataInputStream(sock.getInputStream());
+       
+            /* Receive message from server */
+             
+            while (true) {
+               
+          
+                /* Receive message from server */
+                String data = in.readUTF();
+                System.out.print("\n[Resposta] "+data);
+            
+            }           
 
-}
+        }
+
+    //}
 }
