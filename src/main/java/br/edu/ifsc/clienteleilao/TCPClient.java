@@ -23,9 +23,10 @@ public class TCPClient extends Thread{
     //String ip = "10.151.34.132";
     Socket sock;
 
-    public TCPClient(Socket sock) {
-        this.sock = sock;
+    public TCPClient() {
+      
     }
+
     
     
     

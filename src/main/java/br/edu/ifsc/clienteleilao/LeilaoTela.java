@@ -16,12 +16,13 @@ import java.util.logging.Logger;
  */
 public class LeilaoTela extends javax.swing.JFrame {
 
-    TCPClient clienteTCP = new TCPClient();
     Socket sock;
+    TCPClient clienteTCP;
 
     public LeilaoTela() {
 
         initComponents();
+        clienteTCP = new TCPClient();
     }
 
     /**
@@ -221,18 +222,20 @@ public class LeilaoTela extends javax.swing.JFrame {
     private void buttonBuscaLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscaLeilaoActionPerformed
         String ip = txtIp.getText();
         String porta = txtPorta.getText();
+        
         clienteTCP.Conectar(ip, porta);
         clienteTCP.start();
         //clienteTCP.run(sock);
-     
+
     }//GEN-LAST:event_buttonBuscaLeilaoActionPerformed
 
     private void buttonEnviarLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarLanceActionPerformed
         String lance = txtNome.getText();
         try {
-            clienteTCP.enviarMensagem(lance, sock);
+            clienteTCP.enviarMensagem(lance, clienteTCP.sock);
         } catch (IOException ex) {
             Logger.getLogger(LeilaoTela.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Pau no enviar lance");
         }
     }//GEN-LAST:event_buttonEnviarLanceActionPerformed
 
