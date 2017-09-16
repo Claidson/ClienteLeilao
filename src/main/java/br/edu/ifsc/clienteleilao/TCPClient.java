@@ -13,24 +13,31 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 /**
  *
  * @author aluno
  */
-public class TCPClient extends Thread{
+public class TCPClient extends Thread {
 
     //String ip = "10.151.34.132";
     Socket sock;
+    Produto produto;
 
-    public TCPClient() {
-      
+    public Produto getProduto() {
+        return produto;
     }
 
-    
-    
-    
-    public  void Conectar(String ip, String porta) {
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public TCPClient() {
+
+    }
+
+    public void Conectar(String ip, String porta) {
 
         try {
             Socket sock;
@@ -58,41 +65,37 @@ public class TCPClient extends Thread{
             System.out.print("\nConectando a " + srvAddr.toString() + " na porta " + port + "... ");
             sock = new Socket(srvAddr, port);
             System.out.print("[OK]");
-           // this.sock = sock;
+            // this.sock = sock;
             this.sock = sock;
         } catch (IOException e) {
             System.out.print("\n\tConexao: " + e.getMessage());
         }
-      
 
     }
 
     public static void enviarMensagem(String outMsg, Socket sock) throws IOException {
-        
+
         DataOutputStream out = new DataOutputStream(sock.getOutputStream());
-    
-      //  Scanner input = new Scanner(System.in);
 
-       // while (true) {
-            System.out.print("\nMensagem: ");
-            //outMsg = input.nextLine();
+        //  Scanner input = new Scanner(System.in);
+        // while (true) {
+        System.out.print("\nMensagem: ");
+        //outMsg = input.nextLine();
 
-            /* Check message */
-            if ("<close>".equals(outMsg)) {
-                /* Connection close */
-                sock.close();
+        /* Check message */
+        if ("<close>".equals(outMsg)) {
+            /* Connection close */
+            sock.close();
 
-                /* Close system */
-                System.exit(0);
-            }
-
-            /* Send message to server */
-            out.writeUTF(outMsg);
-
-            /* Receive message from server */
-         
-
+            /* Close system */
+            System.exit(0);
         }
+
+        /* Send message to server */
+        out.writeUTF(outMsg);
+
+        /* Receive message from server */
+    }
 
     public void run() {
         try {
@@ -102,23 +105,22 @@ public class TCPClient extends Thread{
             Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public static void receberMensagem(Socket sock) throws IOException {
+
+    public void receberMensagem(Socket sock) throws IOException {
         DataInputStream in = new DataInputStream(sock.getInputStream());
-       
-            /* Receive message from server */
-             
-            while (true) {
-               
-          
-                /* Receive message from server */
-                String data = in.readUTF();
-                System.out.print("\n[Resposta] "+data);
+        String data;
+      
+        while (true) {
+
+            /* mensagem servidor */
+            data = in.readUTF();
+            this.produto.setNome(data);
+            System.out.print("\n[Resposta] " + data);
             
-            }           
 
         }
 
-    //}
+    }
+
+
 }

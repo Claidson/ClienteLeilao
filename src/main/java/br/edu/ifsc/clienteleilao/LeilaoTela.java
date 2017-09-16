@@ -18,6 +18,7 @@ public class LeilaoTela extends javax.swing.JFrame {
 
     Socket sock;
     TCPClient clienteTCP;
+    String lance = "";
 
     public LeilaoTela() {
 
@@ -44,12 +45,10 @@ public class LeilaoTela extends javax.swing.JFrame {
         buttonBuscaLeilao = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         buttonEnviarLance = new javax.swing.JButton();
+        txtLance = new javax.swing.JTextField();
+        jLabelLance = new javax.swing.JLabel();
+        jLabelProduto = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,7 +61,7 @@ public class LeilaoTela extends javax.swing.JFrame {
             }
         });
 
-        txtIp.setText("10.151.34.51");
+        txtIp.setText("192.168.2.195");
         txtIp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIpActionPerformed(evt);
@@ -102,7 +101,7 @@ public class LeilaoTela extends javax.swing.JFrame {
                         .addGap(61, 61, 61)
                         .addComponent(buttonBuscaLeilao, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtNome))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,20 +123,16 @@ public class LeilaoTela extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("Busca Leilões Tabaraja");
 
-        jScrollPane2.setViewportView(jTextPane2);
-
-        jLabel5.setText("jLabel5");
-
-        jLabel6.setText("jLabel6");
-
-        jLabel7.setText("jLabel7");
-
         buttonEnviarLance.setText("Enviar lance");
         buttonEnviarLance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonEnviarLanceActionPerformed(evt);
             }
         });
+
+        jLabelLance.setText("Lance:");
+
+        jLabelProduto.setText("------------------------------------------------------------------------------------");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -146,32 +141,29 @@ public class LeilaoTela extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel5)
-                        .addGap(74, 74, 74)
-                        .addComponent(jLabel6)
-                        .addGap(87, 87, 87)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(buttonEnviarLance, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabelLance)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtLance, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(buttonEnviarLance, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabelProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addGap(35, 35, 35)
+                .addComponent(jLabelProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(buttonEnviarLance, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelLance))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(buttonEnviarLance, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -192,7 +184,7 @@ public class LeilaoTela extends javax.swing.JFrame {
                                 .addGap(56, 56, 56))
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,17 +214,26 @@ public class LeilaoTela extends javax.swing.JFrame {
     private void buttonBuscaLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscaLeilaoActionPerformed
         String ip = txtIp.getText();
         String porta = txtPorta.getText();
-        
+
         clienteTCP.Conectar(ip, porta);
         clienteTCP.start();
+        jLabelProduto.setText(clienteTCP.produto.getNome());
+        try {
+            clienteTCP.enviarMensagem(lance, clienteTCP.sock);
+        } catch (IOException ex) {
+            Logger.getLogger(LeilaoTela.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
         //clienteTCP.run(sock);
 
     }//GEN-LAST:event_buttonBuscaLeilaoActionPerformed
 
     private void buttonEnviarLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarLanceActionPerformed
-        String lance = txtNome.getText();
+        lance = txtLance.getText();
         try {
             clienteTCP.enviarMensagem(lance, clienteTCP.sock);
+            
         } catch (IOException ex) {
             Logger.getLogger(LeilaoTela.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Pau no enviar lance");
@@ -281,15 +282,13 @@ public class LeilaoTela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelLance;
+    private javax.swing.JLabel jLabelProduto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextPane jTextPane2;
     private javax.swing.JFormattedTextField txtIp;
+    private javax.swing.JTextField txtLance;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPorta;
     // End of variables declaration//GEN-END:variables
