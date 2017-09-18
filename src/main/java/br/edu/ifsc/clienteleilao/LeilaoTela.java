@@ -61,7 +61,7 @@ public class LeilaoTela extends javax.swing.JFrame {
             }
         });
 
-        txtIp.setText("192.168.2.195");
+        txtIp.setText("10.151.34.51");
         txtIp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIpActionPerformed(evt);
@@ -184,7 +184,7 @@ public class LeilaoTela extends javax.swing.JFrame {
                                 .addGap(56, 56, 56))
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,14 +216,14 @@ public class LeilaoTela extends javax.swing.JFrame {
         String porta = txtPorta.getText();
 
         clienteTCP.Conectar(ip, porta);
-        clienteTCP.start();
-        jLabelProduto.setText(clienteTCP.produto.getNome());
+        
         try {
-            clienteTCP.enviarMensagem(lance, clienteTCP.sock);
+            clienteTCP.enviarMensagem(txtNome.getText(), clienteTCP.sock);
         } catch (IOException ex) {
             Logger.getLogger(LeilaoTela.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        clienteTCP.start();
+        jLabelProduto.setText(clienteTCP.produto.getNome());
 
         //clienteTCP.run(sock);
 

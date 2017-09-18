@@ -13,7 +13,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jdk.nashorn.internal.codegen.CompilerConstants;
 
 /**
  *
@@ -73,7 +72,7 @@ public class TCPClient extends Thread {
 
     }
 
-    public static void enviarMensagem(String outMsg, Socket sock) throws IOException {
+    public void enviarMensagem(String outMsg, Socket sock) throws IOException {
 
         DataOutputStream out = new DataOutputStream(sock.getOutputStream());
 
@@ -97,30 +96,37 @@ public class TCPClient extends Thread {
         /* Receive message from server */
     }
 
+    @Override
     public void run() {
         try {
 
-            receberMensagem(sock);
+            receberMensagem();
+            System.out.println("Socket run: " + sock.toString());
         } catch (IOException ex) {
             Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void receberMensagem(Socket sock) throws IOException {
+    public void receberMensagem() throws IOException {
         DataInputStream in = new DataInputStream(sock.getInputStream());
         String data;
-      
+        int i = 0;
+        System.out.println("Sock: " + sock.toString());
         while (true) {
+            i = i++;
 
+            System.out.println("i+ " + i);
             /* mensagem servidor */
             data = in.readUTF();
-            this.produto.setNome(data);
+
             System.out.print("\n[Resposta] " + data);
+     
             
+           this.produto.setNome(data);
+           System.out.println("Produto: " + this.produto.getNome());
 
         }
 
     }
-
 
 }
