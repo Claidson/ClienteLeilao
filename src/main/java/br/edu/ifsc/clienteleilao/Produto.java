@@ -17,7 +17,7 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(String nome, String caracteristica, double precoInicial) {
+    public Produto(String nome,  double precoInicial, String caracteristica) {
         this.nome = nome;
         this.caracteristica = caracteristica;
         this.precoInicial = precoInicial;

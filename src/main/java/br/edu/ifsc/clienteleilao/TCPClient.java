@@ -22,15 +22,9 @@ public class TCPClient extends Thread {
 
     //String ip = "10.151.34.132";
     Socket sock;
-    Produto produto;
+     Produto produto;
 
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
+    
 
     public TCPClient() {
 
@@ -78,7 +72,7 @@ public class TCPClient extends Thread {
 
         //  Scanner input = new Scanner(System.in);
         // while (true) {
-        System.out.print("\nMensagem: ");
+        System.out.print("\nMensagem [enviar msg]: ");
         //outMsg = input.nextLine();
 
         /* Check message */
@@ -110,6 +104,7 @@ public class TCPClient extends Thread {
     public void receberMensagem() throws IOException {
         DataInputStream in = new DataInputStream(sock.getInputStream());
         String data;
+        Produto produto;
         int i = 0;
         System.out.println("Sock: " + sock.toString());
         while (true) {
@@ -120,10 +115,12 @@ public class TCPClient extends Thread {
             data = in.readUTF();
 
             System.out.print("\n[Resposta] " + data);
-     
-            
-           this.produto.setNome(data);
-           System.out.println("Produto: " + this.produto.getNome());
+            String[] array = data.split(";");
+            System.out.println("\nNome: " + array[0] + " Preço: " + array[1] + " Caracteristica: " + array[2]);
+            produto = new Produto(array[0], Double.parseDouble(array[1]), array[2]);
+            this.produto = produto;
+
+            System.out.println("Produto: " + this.produto.getNome());
 
         }
 
