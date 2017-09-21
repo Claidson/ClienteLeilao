@@ -23,7 +23,7 @@ public class LeilaoTela extends javax.swing.JFrame {
     public LeilaoTela() {
 
         initComponents();
-        clienteTCP = new TCPClient();
+       
     }
 
     /**
@@ -214,22 +214,23 @@ public class LeilaoTela extends javax.swing.JFrame {
     private void buttonBuscaLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscaLeilaoActionPerformed
         String ip = txtIp.getText();
         String porta = txtPorta.getText();
-
+        String produtoRotulo;
+        clienteTCP = new TCPClient();
         clienteTCP.Conectar(ip, porta);
 
         try {
             clienteTCP.enviarMensagem(txtNome.getText(), clienteTCP.sock);
-            clienteTCP.start();
-            String produtoRotulo = clienteTCP.produto.getNome();
-            System.out.println("Rotulo: " + produtoRotulo);
+           // clienteTCP.start();
+           clienteTCP.receberProduto();
+
         } catch (IOException ex) {
             Logger.getLogger(LeilaoTela.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        /*String produtoRotulo = clienteTCP.produto.getNome();
+        produtoRotulo = clienteTCP.produto.getNome();
         System.out.println("Rotulo: " + produtoRotulo);
-        jLabelProduto.setText(produtoRotulo);*/
 
+        jLabelProduto.setText(produtoRotulo.toString());
+        System.out.println("aki");
     }//GEN-LAST:event_buttonBuscaLeilaoActionPerformed
 
     private void buttonEnviarLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarLanceActionPerformed

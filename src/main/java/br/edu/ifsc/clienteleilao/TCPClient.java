@@ -22,9 +22,7 @@ public class TCPClient extends Thread {
 
     //String ip = "10.151.34.132";
     Socket sock;
-     Produto produto;
-
-    
+    Produto produto;
 
     public TCPClient() {
 
@@ -38,7 +36,7 @@ public class TCPClient extends Thread {
             int port = Integer.parseInt(porta);
 
             /* Gets parameters and check */
-            if (!ip.equals("localhost")) {
+            if (true) {
                 try {
                     srvAddr = InetAddress.getByName(ip);
                 } catch (UnknownHostException e) {
@@ -58,7 +56,7 @@ public class TCPClient extends Thread {
             System.out.print("\nConectando a " + srvAddr.toString() + " na porta " + port + "... ");
             sock = new Socket(srvAddr, port);
             System.out.print("[OK]");
-            // this.sock = sock;
+
             this.sock = sock;
         } catch (IOException e) {
             System.out.print("\n\tConexao: " + e.getMessage());
@@ -90,18 +88,17 @@ public class TCPClient extends Thread {
         /* Receive message from server */
     }
 
-    @Override
     public void run() {
         try {
 
-            receberMensagem();
+            receberMensagem(this.sock);
             System.out.println("Socket run: " + sock.toString());
         } catch (IOException ex) {
             Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void receberMensagem() throws IOException {
+    public void receberMensagem(Socket sock) throws IOException {
         DataInputStream in = new DataInputStream(sock.getInputStream());
         String data;
         Produto produto;
@@ -118,12 +115,36 @@ public class TCPClient extends Thread {
             String[] array = data.split(";");
             System.out.println("\nNome: " + array[0] + " Preço: " + array[1] + " Caracteristica: " + array[2]);
             produto = new Produto(array[0], Double.parseDouble(array[1]), array[2]);
+
             this.produto = produto;
 
             System.out.println("Produto: " + this.produto.getNome());
 
         }
 
+    }
+
+    public Produto receberProduto() throws IOException {
+        DataInputStream in = new DataInputStream(sock.getInputStream());
+        String data;
+        Produto produto;
+
+        while (true) {
+
+            /* mensagem servidor */
+            data = in.readUTF();
+
+            System.out.print("\n[Resposta] " + data);
+            String[] array = data.split(";");
+            System.out.println("\nNome: " + array[0] + " Preço: " + array[1] + " Caracteristica: " + array[2]);
+            produto = new Produto(array[0], Double.parseDouble(array[1]), array[2]);
+
+            this.produto = produto;
+
+            System.out.println("Produto: " + this.produto.getNome());
+
+            return produto;
+        }
     }
 
 }
