@@ -23,6 +23,7 @@ public class TCPClient extends Thread {
     //String ip = "10.151.34.132";
     Socket sock;
     Produto produto;
+    String mensagem;
 
     public TCPClient() {
 
@@ -110,16 +111,22 @@ public class TCPClient extends Thread {
             System.out.println("i+ " + i);
             /* mensagem servidor */
             data = in.readUTF();
+            if (data.equals("ACK")) {
 
-            System.out.print("\n[Resposta] " + data);
-            String[] array = data.split(";");
-            System.out.println("\nNome: " + array[0] + " Preço: " + array[1] + " Caracteristica: " + array[2]);
-            produto = new Produto(array[0], Double.parseDouble(array[1]), array[2]);
+                mensagem = ("Proposta enviada");
+                System.out.println(mensagem);
+            } else {
 
-            this.produto = produto;
+                System.out.print("\n[Resposta] " + data);
+                String[] array = data.split(";");
+                System.out.println("\nNome: " + array[0] + " Preço: " + array[1] + " Caracteristica: " + array[2]);
+                produto = new Produto(array[0], Double.parseDouble(array[1]), array[2]);
 
-            System.out.println("Produto: " + this.produto.getNome());
+                this.produto = produto;
+                mensagem = this.produto.getNome();
+                System.out.println("Produto: " + this.produto.getNome());
 
+            }
         }
 
     }
@@ -140,7 +147,7 @@ public class TCPClient extends Thread {
             produto = new Produto(array[0], Double.parseDouble(array[1]), array[2]);
 
             this.produto = produto;
-
+            mensagem = this.produto.getNome();
             System.out.println("Produto: " + this.produto.getNome());
 
             return produto;
